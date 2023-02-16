@@ -20,7 +20,7 @@ exports.getById = async (req, res) => {
 
     try {
         const ads = await Ad.findById(req.params.id);
-        console.log(ads)
+
         if (!ads) res.status(404).json({ message: 'Nie znaleziono' });
         else res.json(ads);
 

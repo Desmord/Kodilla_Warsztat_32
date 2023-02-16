@@ -1,11 +1,16 @@
 const User = require('../models/user.model');
 
-exports.getUser = async (req, res) => {
-// jeden konkrenty na bazie id
+exports.getUserByID = async (req, res) => {
+
     try {
-        res.json({ message: `Pobierz użytkownia.` })
+
+        const user = await User.findById(req.params.id);
+
+        if (!user) res.status(404).json({ message: 'Nie znaleziono' });
+        else res.json(user);
+
     } catch (err) {
-        res.json({ message: `Bład pobierania.` })
+        res.status(500).json({ message: `Bład pobierania użytkownika.` })
     }
 
 };
