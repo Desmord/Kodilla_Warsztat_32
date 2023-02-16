@@ -46,9 +46,9 @@ exports.getAllByTitle = async (req, res) => {
 
 }
 
+
+// Walidacje pustych zroibc po stronie clienta
 exports.postAd = async (req, res) => {
-
-
     try {
 
         const { title, content, publishDate, img, price, location, author } = req.body;
@@ -57,40 +57,50 @@ exports.postAd = async (req, res) => {
         await newAd.save();
 
         res.json({ message: `Dodanie nowego ogłosznia poprawne.` })
+
     } catch (err) {
         res.status(500).json({ message: `Bład Dodawania.` })
     }
 
 }
 
+// Walidacje pustych zroibc po stronie clienta
 exports.putAd = async (req, res) => {
 
     const { title, content, publishDate, img, price, location, author, id } = req.body;
 
     try {
 
-        await Ad.updateOne({ _id: id }, { title, content, publishDate, img, price, location, author })
+        if (req.session.user.id === author) {
 
-        res.json({ message: `Edycja ogłosznenia udana.` })
+            await Ad.updateOne({ _id: id }, { title, content, publishDate, img, price, location, author })
+
+            res.json({ message: `Edycja ogłosznenia udana.` })
+        } else {
+            res.status(500).json({ message: `Brak uprawnień edycji.` })
+        }
+
     } catch (err) {
         res.status(500).json({ message: `Bład edytowania.` })
     }
 
 }
 
+// Walidacje pustych zroibc po stronie clienta
 exports.deleteAd = async (req, res) => {
 
     try {
 
         const ads = await Ad.findById(req.params.id);
 
-        if (ads) {
+        if (ads && req.session.user.id === ads.author) {
             await Ad.deleteOne({ _id: req.params.id });
-            res.json({ message: `Usunięcie obiektu Udane.` })
+            res.status(201).json({ message: `Usunięcie obiektu Udane.` })
         }
-        else res.status(404).json({ message: 'Bład podczas usuwania. Szukany objekt nie istnieje.' });
+        else res.status(404).json({ message: 'Bład podczas usuwania. Brak uprawnień.' });
 
     } catch (err) {
+        console.log(err)
         res.status(500).json({ message: `Bład usuwania.` })
     }
 

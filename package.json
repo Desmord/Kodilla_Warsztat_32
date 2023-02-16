@@ -17,8 +17,11 @@
   },
   "homepage": "https://github.com/Desmord/Kodilla_Warsztat_32#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-mongo": "^4.6.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
     "mongodb": "^5.0.1",
     "mongoose": "^6.9.1"
   }
