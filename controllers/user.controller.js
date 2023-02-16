@@ -1,7 +1,7 @@
 const User = require('../models/user.model');
 
 exports.getUser = async (req, res) => {
-
+// jeden konkrenty na bazie id
     try {
         res.json({ message: `Pobierz użytkownia.` })
     } catch (err) {
