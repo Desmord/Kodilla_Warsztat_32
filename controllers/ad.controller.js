@@ -1,4 +1,6 @@
 const Ad = require('../models/ad.model');
+const getImageFileType = require(`../utils/getImageFileType`);
+const fs = require(`fs`)
 
 exports.getAll = async (req, res) => {
 
@@ -51,12 +53,25 @@ exports.getAllByTitle = async (req, res) => {
 exports.postAd = async (req, res) => {
     try {
 
-        const { title, content, publishDate, img, price, location, author } = req.body;
-        const newAd = new Ad({ title, content, publishDate, img, price, location, author });
+        const { title, content, publishDate, price, location, author } = req.body;
+        const { filename } = req.file;
+        const fileType = req.file ? await getImageFileType(req.file) : `unknown`;
 
-        await newAd.save();
+        if (filename && (fileType === `image/png` || fileType === `image/jpeg` || fileType === `image/gif`)) {
+            const newAd = new Ad({
+                title, content, publishDate,
+                img: filename,
+                price, location, author
+            });
 
-        res.json({ message: `Dodanie nowego ogłosznia poprawne.` })
+            await newAd.save();
+
+            res.json({ message: `Dodanie nowego ogłosznia poprawne.` })
+
+        } else {
+            res.status(500).json({ message: `Brak zdjęcia.` })
+        }
+
 
     } catch (err) {
         res.status(500).json({ message: `Bład Dodawania.` })
@@ -68,14 +83,21 @@ exports.postAd = async (req, res) => {
 exports.putAd = async (req, res) => {
 
     const { title, content, publishDate, img, price, location, author, id } = req.body;
+    const { filename } = req.file;
 
     try {
 
         if (req.session.user.id === author) {
 
-            await Ad.updateOne({ _id: id }, { title, content, publishDate, img, price, location, author })
+            await Ad.updateOne({ _id: id }, {
+                title, content, publishDate,
+                img: filename,
+                price, location, author
+            })
 
             res.json({ message: `Edycja ogłosznenia udana.` })
+
+
         } else {
             res.status(500).json({ message: `Brak uprawnień edycji.` })
         }

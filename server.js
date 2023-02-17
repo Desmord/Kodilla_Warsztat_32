@@ -31,6 +31,7 @@ app.use(`/api`, adsRoutes);
 app.use(`/auth`, usersRooutes);
 
 app.use(express.static(path.join(__dirname, '/client/build')));
+app.use(express.static(path.join(__dirname, '/public')));
 
 app.use((req, res) => {
     res.status(404).send('404 not found...');

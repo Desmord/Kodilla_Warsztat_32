@@ -1,5 +1,7 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/user.model');
+const getImageFileType = require(`../utils/getImageFileType`);
+const fs = require(`fs`)
 
 exports.getUsers = async (req, res) => {
 
@@ -17,7 +19,7 @@ exports.getUsers = async (req, res) => {
 };
 
 exports.getUserByID = async (req, res) => {
-    console.log(`Pobieramy uzytkownik`)
+
     try {
 
         const user = await User.findById(req.params.id);
@@ -62,27 +64,36 @@ exports.postUserLogin = async (req, res) => {
 // Walidacje pustych zroibc po stronie clienta
 exports.postUserRegister = async (req, res) => {
 
-    const { login, password, avatar, phoneNumber } = req.body;
+    const { login, password, phoneNumber } = req.body;
+    const { filename } = req.file;
+    const fileType = req.file ? await getImageFileType(req.file) : `unknown`;
 
     try {
         const userWithLogin = await User.findOne({ login });
 
         if (userWithLogin) {
+            await fs.unlinkSync(`${__dirname}/../public/uploads/${filename}`)
             return res.status(409).json({ message: `Użytkownik istnieje.` })
         } else {
-            const newUser = new User({
-                login,
-                password: await bcrypt.hash(password, 10),
-                avatar,
-                phoneNumber
-            });
 
-            await newUser.save();
+            if (filename && (fileType === `image/png` || fileType === `image/jpeg` || fileType === `image/gif`)) {
+                const newUser = new User({
+                    login,
+                    password: await bcrypt.hash(password, 10),
+                    avatar: filename,
+                    phoneNumber
+                });
+                await newUser.save();
 
-            res.status(201).json({ message: `Zarejestruj uzytkownika.` })
+                res.status(201).json({ message: `Użytkownik zajestrowany.` })
+            } else {
+                res.status(401).json({ message: `Brak pliku z avatarem.` })
+            }
+
         }
 
     } catch (err) {
+        await fs.unlinkSync(`${__dirname}/../public/uploads/${filename}`)
         res.json({ message: `Bład pobierania.` })
     }
 
