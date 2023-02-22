@@ -1,6 +1,9 @@
+import { NavLink } from 'react-router-dom';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
+
 
 const Header = () => {
 
@@ -8,21 +11,23 @@ const Header = () => {
         <div className={`p-0 container bg-primary min-vw-100`}>
             <Row className={`justify-content-between`}>
                 <Col className={`col-md-6 col-sm-3  p-3`}>
-                    <Button className={`btn-outline-light fw-bold p-3 pb-2 pt-2 text-nowrap`}>Home</Button>
+                    <Navbar
+                        bg="primary" variant="dark" expand="lg"
+                        className={`fw-bold col-auto d-flex justify-content-between rounded`}>
+                        <Nav>
+                            <Nav.Link className={`px-3 border border-ligh rounded`} as={NavLink} to="/">Home</Nav.Link>
+                        </Nav>
+                    </Navbar>
                 </Col>
-                <Col className={`col-auto p-3`}>
-                    <Row className={`justify-content-end`} >
-                        <Col>
-                            <Button className={`fw-bold p-3 pb-2 pt-2 text-nowrap`}>Sign In</Button>
-                        </Col>
-                        <Col>
-                            <Button className={`fw-bold p-3 pb-2 pt-2 text-nowrap`}>Sign Up</Button>
-                        </Col>
-                        <Col>
-                            <Button className={`fw-bold p-3 pb-2 pt-2 text-nowrap`}>Sign Out</Button>
-                        </Col>
-                    </Row>
-                </Col>
+                <Navbar
+                    bg="primary" variant="dark" expand="lg"
+                    className={`fw-bold col-auto d-flex justify-content-between p-3  rounded`}>
+                    <Nav>
+                        <Nav.Link className={`px-2 `} as={NavLink} to="/jaskiAdres">Sign In</Nav.Link>
+                        <Nav.Link className={`px-2 `} as={NavLink} to="/jakisAdres">Sign Up</Nav.Link>
+                        <Nav.Link className={`px-2 `} as={NavLink} to="/jaskiAdres">Sign Out</Nav.Link>
+                    </Nav>
+                </Navbar>
             </Row>
         </div>
     )
