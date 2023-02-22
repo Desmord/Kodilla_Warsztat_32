@@ -1,3 +1,8 @@
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import { getAds, setAds } from '../../../Redux/AdsState/AdsSlice';
+
+
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
@@ -6,19 +11,37 @@ import styles from './Home.module.scss';
 
 const Home = () => {
 
-    const getAds = (ads) => {
+    const ads = useSelector(state => state.ads);
+    const dispatch = useDispatch();
+
+    const getData = async () => {
+
+        if (ads && ads.length) { return 0 }
+
+        const response = await fetch(`http://localhost:8000/api/ads`, { method: `GET`, })
+        const data = await response.json();
+
+        dispatch(setAds(data))
+
+    }
+
+    useEffect(() => {
+        getData();
+    }, [])
+
+    const createAds = (ads) => {
         let adsElements = [];
 
         ads.forEach((element, index) => {
             adsElements.push(
-                <Col key={index} className={`col-8 col-sm-5 col-md-5 col-lg-3 p-2 m-2 rounded  border bg-primary fw-bold text-white`}>
+                <Col key={element._id} className={`col-8 col-sm-5 col-md-5 col-lg-3 p-2 m-2 rounded  border bg-primary fw-bold text-white`}>
                     <div className={`d-flex flex-column justify-content-center  align-items-center`}>
                         <Col className='p-2'>{element.title}</Col>
                         <img
-                            src="..."
+                            src={element.img}
                             alt="..."
                             className={`m-2 ${styles.image}`}></img>
-                        <Col className='p-2'>{element.localization}</Col>
+                        <Col className='p-2'>{element.location}</Col>
                         <Button className={`mt-3`}>Read more</Button>
                     </div>
                 </Col >
@@ -49,26 +72,7 @@ const Home = () => {
                 </form>
             </Row>
             <Row className={`col-12 col-sm-12 col-md-12 col-lg-10 d-flex justify-content-center mt-4`}>
-                {getAds([{
-                    title: `Tytuł 1`,
-                    img: `asfd`,
-                    localization: `Jaowrynz`
-                },
-                {
-                    title: `Tytuł 2`,
-                    img: `asd`,
-                    localization: `Jaowrynzaaa`
-                },
-                {
-                    title: `Tytuł 3`,
-                    img: `asd`,
-                    localization: `Jaowrynz bbb`
-                },
-                {
-                    title: `Tytuł 4`,
-                    img: `asd`,
-                    localization: `Jaowrynz Slaska`
-                },])}
+                {createAds(ads)}
             </Row>
         </div>
     )
