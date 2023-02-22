@@ -4,10 +4,12 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import Container from 'react-bootstrap/Container';
 
+import Header from './Components/Features/Header/Header';
+
 const App = () => {
   return (
-    <Container>
-      {/* Header */}
+    <Container className={`overflow-hidden overflow-y-scroll p-0 min-vw-100 bg-danger`}>
+      <Header />
       <Routes>
         {/* <Route path={`/`} element={<Home />} />
         <Route path={`/ads/:id`} element={<Ad />} />
