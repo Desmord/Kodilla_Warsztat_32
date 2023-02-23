@@ -1,3 +1,6 @@
+import { useNavigate } from 'react-router-dom';
+import { PATHS } from '../../../AppUtilities';
+
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 
@@ -5,6 +8,12 @@ import styles from './Ads.module.scss';
 
 
 const Ads = ({ ads }) => {
+
+    const navigate = useNavigate();
+
+    const handleClick = (ad) => {
+        navigate(`${PATHS.SINGLE_AD}${ad._id}`, { replace: true })
+    }
 
     const createAds = (ads) => {
         let adsElements = [];
@@ -19,7 +28,7 @@ const Ads = ({ ads }) => {
                             alt="..."
                             className={`m-2 ${styles.image}`}></img>
                         <Col className='p-2'>{element.location}</Col>
-                        <Button className={`mt-3`}>Read more</Button>
+                        <Button onClick={() => handleClick(element)} className={`mt-3`}>Read more</Button>
                     </div>
                 </Col >
             )

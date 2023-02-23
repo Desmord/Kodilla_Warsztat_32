@@ -2,8 +2,9 @@ import { useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { setAds } from '../../../Redux/AdsState/AdsSlice';
+import { setAuthors } from '../../../Redux/AuthorsState/AuthorsSlice';
 import { PATHS } from '../../../AppUtilities';
-import { GET_ADS_URL } from '../../../AppUtilities';
+import { GET_ADS_URL, GET_USERS_URL } from '../../../AppUtilities';
 
 import Ads from '../../Features/Ads/Ads';
 
@@ -15,6 +16,7 @@ const Home = () => {
     const navigate = useNavigate();
 
     const ads = useSelector(state => state.ads);
+    const authors = useSelector(state => state.authors);
     const dispatch = useDispatch();
 
     const [isLoading, setIsLoading] = useState(true);
@@ -22,7 +24,7 @@ const Home = () => {
 
     const getData = useCallback(async () => {
 
-        if (ads && ads.length) {
+        if (ads && ads.length && authors && authors.length) {
             setIsLoading(false)
             return 0
         }
@@ -32,11 +34,15 @@ const Home = () => {
         const response = await fetch(GET_ADS_URL, { method: `GET`, })
         const data = await response.json();
 
+        const responseAuthors = await fetch(GET_USERS_URL, { method: `GET` });
+        const dataAuthors = await responseAuthors.json();
+
         dispatch(setAds(data))
+        dispatch(setAuthors(dataAuthors))
 
         setIsLoading(false)
 
-    }, [ads, dispatch])
+    }, [ads, dispatch, authors])
 
     useEffect(() => {
         getData();
@@ -44,7 +50,6 @@ const Home = () => {
 
 
     const handleSubmit = async (e) => {
-        console.log(`ehej`)
         e.preventDefault();
         navigate(`${PATHS.SEARCH}${searchedValue}`, { replace: true })
 

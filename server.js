@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser')
 const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -23,14 +22,14 @@ const app = express();
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(session({
-    secret: `xvn091cba`,
-    cookie: { maxAge: 30000 },
-    saveUninitialized: false,
-}));
+// app.use(session({
+//     secret: `xvn091cba`,
+//     cookie: { maxAge: 30000 },
+//     saveUninitialized: false,
+// }));
 
 
-app.use(`/api`, adsRoutes);
+app.use(`/api`, cors(), adsRoutes);
 app.use(`/auth`, usersRooutes);
 
 app.use(express.static(path.join(__dirname, '/client/build')));

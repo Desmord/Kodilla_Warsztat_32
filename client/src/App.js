@@ -9,6 +9,7 @@ import Header from './Components/Features/Header/Header';
 import Home from './Components/Pages/Home/Home';
 import SearchedAds from './Components/Pages/SearchedAds/SearchedAds';
 import NotFound from './Components/Pages/NotFound/NotFound';
+import SingleAd from './Components/Pages/SingleAd/SingleAd';
 
 const App = () => {
   return (
@@ -16,8 +17,8 @@ const App = () => {
       <Header />
       <Routes>
         <Route path={PATHS.HOME} element={<Home />} />
-        {/* <Route path={`/ads/:id`} element={<Ad />} />
-        <Route path={`/ads/add`} element={<AdAdd />} />
+        <Route path={`/ads/:id`} element={<SingleAd />} />
+        {/* <Route path={`/ads/add`} element={<AdAdd />} />
         <Route path={`/ads/edit/:id`} element={<AdEdit />} />
         <Route path={`/ads/remove/:id`} element={<AdRemove />} /> */}
         <Route path={PATHS.SEARCH_ROUTE} element={<SearchedAds />} />

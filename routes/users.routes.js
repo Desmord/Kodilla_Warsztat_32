@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../utils/authMiddleware');
 const imageUpload = require('../utils/imageUpload');
+const cors = require('cors')
 
 const UsersController = require('../controllers/user.controller');
 

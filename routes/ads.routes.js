@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const router = express.Router();
 const authMiddleware = require('../utils/authMiddleware');
 const imageUpload = require('../utils/imageUpload');
@@ -6,6 +7,7 @@ const imageUpload = require('../utils/imageUpload');
 const AdsController = require('../controllers/ad.controller');
 
 router.get(`/ads`, AdsController.getAll);
+router.get(`/:id`, AdsController.getById)
 router.get(`/ads/:id`, AdsController.getById);
 router.get(`/ads/search/:searchPhrase`, AdsController.getAllByTitle);
 // router.post(`/ads`, authMiddleware, imageUpload.single(`img`), AdsController.postAd);
