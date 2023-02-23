@@ -16,9 +16,9 @@ const App = () => {
         {/* <Route path={`/ads/:id`} element={<Ad />} />
         <Route path={`/ads/add`} element={<AdAdd />} />
         <Route path={`/ads/edit/:id`} element={<AdEdit />} />
-        <Route path={`/ads/remove/:id`} element={<AdRemove />} />
-        <Route path={`/search/:searchPhrase`} element={<Search />} />
-        <Route path={`/login`} element={<Login />} />
+        <Route path={`/ads/remove/:id`} element={<AdRemove />} /> */}
+        {/* <Route path={`/search/:searchPhrase`} element={<Search />} /> */}
+        {/* <Route path={`/login`} element={<Login />} />
         <Route path={`/register`} element={<Register />} />
         <Route path={`/logout`} element={<Logout />} />
         <Route path={`*`} element={<NotFound />} /> */}

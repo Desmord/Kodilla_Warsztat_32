@@ -1,0 +1,1 @@
+export const GET_ADS_URL = `http://localhost:8000/api/ads`;
