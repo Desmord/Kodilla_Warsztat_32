@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { setAds } from '../../../Redux/AdsState/AdsSlice';
-import { GET_ADS_URL } from '../../../AppUtilities';
+// import { GET_ADS_URL } from '../../../AppUtilities';
 
 import Ads from '../../Features/Ads/Ads';
 
@@ -21,10 +21,20 @@ const Home = () => {
 
         setIsLoading(true)
 
-        const response = await fetch(GET_ADS_URL, { method: `GET`, })
-        const data = await response.json();
+        // const response = await fetch(GET_ADS_URL, { method: `GET`, })
+        // const data = await response.json();
 
-        dispatch(setAds(data))
+        // dispatch(setAds(data)),
+        dispatch(setAds([{
+            _id: "63ed062ce0179212c4589df7",
+            author: "63ed05b2e0179212c4589df4",
+            content: "Treść 1",
+            img: "img1",
+            location: "Lokacja 1",
+            price: 100,
+            publishDate: "2023-02-15T00:00:00.000Z",
+            title: "Tytuł 1"
+        }]))
         setIsLoading(false)
 
     }, [ads, dispatch])

@@ -6,6 +6,7 @@ import Container from 'react-bootstrap/Container';
 
 import Header from './Components/Features/Header/Header';
 import Home from './Components/Pages/Home/Home';
+import NotFound from './Components/Pages/NotFound/NotFound';
 
 const App = () => {
   return (
@@ -20,8 +21,8 @@ const App = () => {
         {/* <Route path={`/search/:searchPhrase`} element={<Search />} /> */}
         {/* <Route path={`/login`} element={<Login />} />
         <Route path={`/register`} element={<Register />} />
-        <Route path={`/logout`} element={<Logout />} />
-        <Route path={`*`} element={<NotFound />} /> */}
+        <Route path={`/logout`} element={<Logout />} /> */}
+        <Route path={`*`} element={<NotFound />} />
       </Routes>
     </Container>
   );
