@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import { PATHS } from './AppUtilities';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -6,6 +7,7 @@ import Container from 'react-bootstrap/Container';
 
 import Header from './Components/Features/Header/Header';
 import Home from './Components/Pages/Home/Home';
+import SearchedAds from './Components/Pages/SearchedAds/SearchedAds';
 import NotFound from './Components/Pages/NotFound/NotFound';
 
 const App = () => {
@@ -13,12 +15,12 @@ const App = () => {
     <Container className={`overflow-hidden overflow-y-scroll p-0 min-vw-100`}>
       <Header />
       <Routes>
-        <Route path={`/`} element={<Home />} />
+        <Route path={PATHS.HOME} element={<Home />} />
         {/* <Route path={`/ads/:id`} element={<Ad />} />
         <Route path={`/ads/add`} element={<AdAdd />} />
         <Route path={`/ads/edit/:id`} element={<AdEdit />} />
         <Route path={`/ads/remove/:id`} element={<AdRemove />} /> */}
-        {/* <Route path={`/search/:searchPhrase`} element={<Search />} /> */}
+        <Route path={PATHS.SEARCH_ROUTE} element={<SearchedAds />} />
         {/* <Route path={`/login`} element={<Login />} />
         <Route path={`/register`} element={<Register />} />
         <Route path={`/logout`} element={<Logout />} /> */}

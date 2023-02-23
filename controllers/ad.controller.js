@@ -4,6 +4,7 @@ const fs = require(`fs`)
 
 exports.getAll = async (req, res) => {
 
+    console.log(`Szukamy wszystkich`)
     try {
         const ads = await Ad.find();
 
@@ -51,29 +52,35 @@ exports.getAllByTitle = async (req, res) => {
 
 // Walidacje pustych zroibc po stronie clienta
 exports.postAd = async (req, res) => {
+
     try {
 
-        const { title, content, publishDate, price, location, author } = req.body;
-        const { filename } = req.file;
-        const fileType = req.file ? await getImageFileType(req.file) : `unknown`;
+        const { title, content, publishDate, price, location, author, file } = req.body;
 
-        if (filename && (fileType === `image/png` || fileType === `image/jpeg` || fileType === `image/gif`)) {
-            const newAd = new Ad({
-                title, content, publishDate,
-                img: filename,
-                price, location, author
-            });
+        // const { filename } = req.file;
+        // const fileType = req.file ? await getImageFileType(req.file) : `unknown`;
 
-            await newAd.save();
+        // if (filename && (fileType === `image/png` || fileType === `image/jpeg` || fileType === `image/gif`)) {
 
-            res.json({ message: `Dodanie nowego ogłosznia poprawne.` })
+        const newAd = new Ad({
+            title, content, publishDate,
+            img: `img1`,
+            // img: filename,
+            price, location, author
+        });
 
-        } else {
-            res.status(500).json({ message: `Brak zdjęcia.` })
-        }
+        await newAd.save();
+
+        res.json({ message: `Dodanie nowego ogłosznia poprawne.` })
+
+        // } else {
+        //     res.status(500).json({ message: `Brak zdjęcia.` })
+        // }
+
 
 
     } catch (err) {
+        console.log(err)
         res.status(500).json({ message: `Bład Dodawania.` })
     }
 
@@ -111,19 +118,23 @@ exports.putAd = async (req, res) => {
 // Walidacje pustych zroibc po stronie clienta
 exports.deleteAd = async (req, res) => {
 
-    try {
+    console.log(req.body)
+    console.log(req.params)
+    res.send(`usuweamy`)
 
-        const ads = await Ad.findById(req.params.id);
+    // try {
 
-        if (ads && req.session.user.id === ads.author) {
-            await Ad.deleteOne({ _id: req.params.id });
-            res.status(201).json({ message: `Usunięcie obiektu Udane.` })
-        }
-        else res.status(404).json({ message: 'Bład podczas usuwania. Brak uprawnień.' });
+    //     const ads = await Ad.findById(req.params.id);
 
-    } catch (err) {
-        console.log(err)
-        res.status(500).json({ message: `Bład usuwania.` })
-    }
+    //     if (ads && req.session.user.id === ads.author) {
+    //         await Ad.deleteOne({ _id: req.params.id });
+    //         res.status(201).json({ message: `Usunięcie obiektu Udane.` })
+    //     }
+    //     else res.status(404).json({ message: 'Bład podczas usuwania. Brak uprawnień.' });
+
+    // } catch (err) {
+    //     console.log(err)
+    //     res.status(500).json({ message: `Bład usuwania.` })
+    // }
 
 }

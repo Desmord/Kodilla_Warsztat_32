@@ -1,9 +1,12 @@
 const express = require('express');
+const bodyParser = require('body-parser')
 const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
 const session = require(`express-session`);
 // const MongoStore = require(`connect-mongo`);
+
+const AdsController = require(`./controllers/ad.controller`)
 
 
 const PORT = process.env.PORT || 8000;
@@ -18,8 +21,8 @@ const app = express();
 
 
 app.use(cors());
-app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(session({
     secret: `xvn091cba`,
     cookie: { maxAge: 30000 },
