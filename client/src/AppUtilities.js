@@ -2,7 +2,8 @@ const build = `8000`
 
 export const GET_ADS_URL = `http://localhost:8000/api/ads`;
 
-export const GET_USERS_URL = `http://localhost:8000/auth/user`
+export const GET_USERS_URL = `http://localhost:8000/auth/user`;
+export const REGISTER_USER_URL = `http://localhost:8000/auth/register`
 
 // http://localhost:8000/ads/search/:searchPhrase
 export const GET_SEARCHED_ADS = `http://localhost:8000/api/ads/search/`;

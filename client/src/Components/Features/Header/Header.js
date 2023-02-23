@@ -24,8 +24,8 @@ const Header = () => {
                     bg="primary" variant="dark" expand="lg"
                     className={`fw-bold col-auto d-flex justify-content-between p-3  rounded`}>
                     <Nav>
-                        <Nav.Link className={`px-2 `} as={NavLink} to="/jaskiAdres">Sign In</Nav.Link>
-                        <Nav.Link className={`px-2 `} as={NavLink} to="/jakisAdres">Sign Up</Nav.Link>
+                        <Nav.Link className={`px-2 `} as={NavLink} to="/login">Sign In</Nav.Link>
+                        <Nav.Link className={`px-2 `} as={NavLink} to="/register">Sign Up</Nav.Link>
                         <Nav.Link className={`px-2 `} as={NavLink} to="/jaskiAdres">Sign Out</Nav.Link>
                     </Nav>
                 </Navbar>

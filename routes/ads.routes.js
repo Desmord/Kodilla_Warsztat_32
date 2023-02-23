@@ -8,7 +8,7 @@ const AdsController = require('../controllers/ad.controller');
 
 router.get(`/ads`, AdsController.getAll);
 router.get(`/:id`, AdsController.getById)
-router.get(`/ads/:id`, AdsController.getById);
+// router.get(`/ads/:id`, AdsController.getById);
 router.get(`/ads/search/:searchPhrase`, AdsController.getAllByTitle);
 // router.post(`/ads`, authMiddleware, imageUpload.single(`img`), AdsController.postAd);
 router.post(`/ads`, AdsController.postAd);

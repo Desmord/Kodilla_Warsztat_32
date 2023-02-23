@@ -33,7 +33,7 @@ exports.getUserByID = async (req, res) => {
 
 };
 
-// Walidacje pustych zroibc po stronie clienta
+
 exports.postUserLogin = async (req, res) => {
 
     const { login, password } = req.body;
@@ -61,39 +61,44 @@ exports.postUserLogin = async (req, res) => {
 };
 
 
-// Walidacje pustych zroibc po stronie clienta
 exports.postUserRegister = async (req, res) => {
 
-    const { login, password, phoneNumber } = req.body;
-    const { filename } = req.file;
-    const fileType = req.file ? await getImageFileType(req.file) : `unknown`;
+    const { login, password, phoneNumber, avatar } = req.body;
+    // const { filename } = req.file;
+    // const fileType = req.file ? await getImageFileType(req.file) : `unknown`;
+    // console.log(`Rejestruemy`)
+    // console.log(`Login: `, login)
+    // console.log(`password: `, password)
+    // console.log(`PhoneNumber: `,phoneNumber)
 
     try {
         const userWithLogin = await User.findOne({ login });
 
         if (userWithLogin) {
-            await fs.unlinkSync(`${__dirname}/../public/uploads/${filename}`)
+            // await fs.unlinkSync(`${__dirname}/../public/uploads/${filename}`)
             return res.status(409).json({ message: `Użytkownik istnieje.` })
         } else {
 
-            if (filename && (fileType === `image/png` || fileType === `image/jpeg` || fileType === `image/gif`)) {
-                const newUser = new User({
-                    login,
-                    password: await bcrypt.hash(password, 10),
-                    avatar: filename,
-                    phoneNumber
-                });
-                await newUser.save();
+            // if (filename && (fileType === `image/png` || fileType === `image/jpeg` || fileType === `image/gif`)) {
+            const newUser = new User({
+                login,
+                password: await bcrypt.hash(password, 10),
+                avatar: avatar,
+                // avatar: filename,
+                phoneNumber
+            });
+            await newUser.save();
 
-                res.status(201).json({ message: `Użytkownik zajestrowany.` })
-            } else {
-                res.status(401).json({ message: `Brak pliku z avatarem.` })
-            }
+            res.status(201).json({ message: `Użytkownik zajestrowany.` })
+            // } else {
+            //     res.status(401).json({ message: `Brak pliku z avatarem.` })
+            // }
 
         }
 
     } catch (err) {
-        await fs.unlinkSync(`${__dirname}/../public/uploads/${filename}`)
+        console.log(err)
+        // await fs.unlinkSync(`${__dirname}/../public/uploads/${filename}`)
         res.json({ message: `Bład pobierania.` })
     }
 

@@ -4,7 +4,6 @@ const fs = require(`fs`)
 
 exports.getAll = async (req, res) => {
 
-    console.log(`Szukamy wszystkich`)
     try {
         const ads = await Ad.find();
 
@@ -20,8 +19,6 @@ exports.getAll = async (req, res) => {
 };
 
 exports.getById = async (req, res) => {
-
-    console.log(`Wysukujemy po id`)
 
     try {
         const ads = await Ad.findById(req.params.id);

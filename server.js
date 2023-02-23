@@ -22,11 +22,11 @@ const app = express();
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-// app.use(session({
-//     secret: `xvn091cba`,
-//     cookie: { maxAge: 30000 },
-//     saveUninitialized: false,
-// }));
+app.use(session({
+    secret: `xvn091cba`,
+    cookie: { maxAge: 30000 },
+    saveUninitialized: false,
+}));
 
 
 app.use(`/api`, cors(), adsRoutes);
