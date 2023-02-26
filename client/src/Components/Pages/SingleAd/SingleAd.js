@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 import { GET_ADD_BY_ID } from '../../../AppUtilities';
 
+
 import Row from 'react-bootstrap/Row';
 
 import styles from './SingleAd.module.scss'
@@ -11,6 +12,7 @@ const SingleAd = () => {
 
     const { id } = useParams();
     const authors = useSelector(state => state.authors)
+    const user = useSelector(state => state.app)
 
     const [isLoading, setIsLoading] = useState(true);
     const [currentAd, setCurrentAd] = useState({});
@@ -60,6 +62,9 @@ const SingleAd = () => {
                                 alt="avatar"
                                 className={`m-2 ${styles.singleImage}`}></img>
                         </Row>
+                        {user.user && currentAuthor && user.user === currentAuthor?.login ?
+                            `Edytujemy i usuwamy` :
+                            ``}
                     </Row>
             }
         </div>

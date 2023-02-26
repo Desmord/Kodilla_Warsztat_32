@@ -11,9 +11,9 @@ router.get(`/:id`, AdsController.getById)
 // router.get(`/ads/:id`, AdsController.getById);
 router.get(`/ads/search/:searchPhrase`, AdsController.getAllByTitle);
 // router.post(`/ads`, authMiddleware, imageUpload.single(`img`), AdsController.postAd);
-router.post(`/ads`, AdsController.postAd);
+// router.post(`/ads`, AdsController.postAd);
 // router.delete(`/ads/:id`, authMiddleware, AdsController.deleteAd);
-router.delete(`/ads/:id`, AdsController.deleteAd);
-router.put('/ads/:id', authMiddleware, imageUpload.single(`img`), AdsController.putAd);
+// router.delete(`/ads/:id`, AdsController.deleteAd);
+// router.put('/ads/:id', authMiddleware, imageUpload.single(`img`), AdsController.putAd);
 
 module.exports = router;

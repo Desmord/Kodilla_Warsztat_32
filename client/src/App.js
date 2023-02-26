@@ -21,13 +21,13 @@ const App = () => {
       <Header />
       <Routes>
         <Route path={PATHS.HOME} element={<Home />} />
-        <Route path={`/ads/:id`} element={<SingleAd />} />
-        <Route path={`/ads/add`} element={<Add />} />
+        <Route path={PATHS.SINGLE_AD_ROUTE} element={<SingleAd />} />
+        <Route path={PATHS.ADD_AD} element={<Add />} />
         <Route path={`/ads/edit/:id`} element={<Edit />} />
         {/* <Route path={`/ads/remove/:id`} element={<AdRemove />} /> */}
         <Route path={PATHS.SEARCH_ROUTE} element={<SearchedAds />} />
-        <Route path={`/login`} element={<Login />} />
-        <Route path={`/register`} element={<Register />} />
+        <Route path={PATHS.LOGIN} element={<Login />} />
+        <Route path={PATHS.REGISTER} element={<Register />} />
         {/* <Route path={`/logout`} element={<Logout />} /> */}
         <Route path={`*`} element={<NotFound />} />
       </Routes>

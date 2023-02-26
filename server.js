@@ -5,9 +5,6 @@ const mongoose = require('mongoose');
 const session = require(`express-session`);
 // const MongoStore = require(`connect-mongo`);
 
-const AdsController = require(`./controllers/ad.controller`)
-
-
 const PORT = process.env.PORT || 8000;
 const USER_NAME = `UserKodilla`;
 const USER_PASSWORD = `UserKodilla1`; // Przenieśc do zmiennych środowiskowych na serwer
@@ -20,16 +17,25 @@ const app = express();
 
 
 app.use(cors());
-app.use(express.urlencoded({ extended: false }));
+if (process.env.NODE_ENV !== 'production') {
+    app.use(
+        cors({
+            origin: ['http://localhost:3000'],
+            credentials: true,
+        })
+    );
+}
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(session({
     secret: `xvn091cba`,
     cookie: { maxAge: 30000 },
+    secure: process.env.NODE_ENV == 'production',
     saveUninitialized: false,
 }));
 
 
-app.use(`/api`, cors(), adsRoutes);
+app.use(`/api`, adsRoutes);
 app.use(`/auth`, usersRooutes);
 
 app.use(express.static(path.join(__dirname, '/client/build')));

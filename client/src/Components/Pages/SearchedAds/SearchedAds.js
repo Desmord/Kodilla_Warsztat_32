@@ -33,18 +33,6 @@ const SearchedAds = () => {
 
         setSearchedAds(sAdds)
 
-        // setSearchedAds([{
-        //     _id: "63ed062ce0179212c4589df7",
-        //     author: "63ed05b2e0179212c4589df4",
-        //     content: "Treść 1",
-        //     img: "img1",
-        //     location: "Lokacja 1",
-        //     price: 100,
-        //     publishDate: "2023-02-15T00:00:00.000Z",
-        //     title: "Tytuł 1"
-        // }])
-
-
         setIsLoading(false)
 
     }, [searchPhrase, ads])
