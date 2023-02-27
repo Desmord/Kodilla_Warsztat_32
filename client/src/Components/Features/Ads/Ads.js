@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { PATHS } from '../../../AppUtilities';
+import { PATHS, API_URL } from '../../../AppUtilities';
 
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
@@ -24,7 +24,7 @@ const Ads = ({ ads }) => {
                     <div className={`d-flex flex-column justify-content-center  align-items-center`}>
                         <Col className='p-2'>{element.title}</Col>
                         <img
-                            src={element.img}
+                            src={`${API_URL}uploads/${element.img}`}
                             alt="..."
                             className={`m-2 ${styles.image}`}></img>
                         <Col className='p-2'>{element.location}</Col>

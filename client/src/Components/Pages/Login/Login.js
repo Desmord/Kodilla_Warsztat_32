@@ -43,7 +43,7 @@ const Login = () => {
 
         switch (data.message) {
             case 'Logowanie poprawne.':
-                dispatch(setAppUser({ user: login }));
+                dispatch(setAppUser({ user: login, id: data.id }));
                 displayInfo(`Login sucsessful. Navigate to login page.`)
                 setTimeout(() => {
                     navigate(`${PATHS.HOME}`, { replace: true })

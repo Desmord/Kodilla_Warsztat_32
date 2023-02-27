@@ -52,26 +52,6 @@ const Home = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         navigate(`${PATHS.SEARCH}${searchedValue}`, { replace: true })
-
-
-
-        // const response = await fetch(`http://localhost:8000/api/ads`, {
-        //     method: "POST",
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         title: `Jakis Tytuł `,
-        //         content: `asdkjfhasdlkj fasdlkjasdh lkjfa hlafsdhkasdfsadf`,
-        //         publishDate: `2023-02-23`,
-        //         price: 100,
-        //         location: `Jaworzyna śląska`,
-        //         author: `63ed05f5e0179212c4589df5`
-        //     })
-        // })
-
-        // const data = await response.json();
-
     }
 
     return (

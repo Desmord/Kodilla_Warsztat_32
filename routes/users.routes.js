@@ -10,6 +10,7 @@ router.get(`/user`, UsersController.getUsers);
 router.get(`/user/:id`, authMiddleware, UsersController.getUserByID,);
 router.post(`/login`, UsersController.postUserLogin);
 router.post(`/register`, imageUpload.single(`avatar`), UsersController.postUserRegister);
-router.post(`/logout`, authMiddleware, UsersController.postLogOut);
+router.post(`/logout`, UsersController.postLogOut);
+// router.post(`/logout`, authMiddleware, UsersController.postLogOut);
 
 module.exports = router;

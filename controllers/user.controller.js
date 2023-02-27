@@ -47,7 +47,11 @@ exports.postUserLogin = async (req, res) => {
 
             if (bcrypt.compareSync(password, userWithLogin.password)) {
                 req.session.user = { login: userWithLogin.login, id: userWithLogin._id };
-                res.status(200).json({ message: `Logowanie poprawne.` })
+                res.status(200).json({
+                    message: `Logowanie poprawne.`,
+                    login: userWithLogin.login,
+                    id: userWithLogin._id,
+                })
             } else {
                 res.json({ message: `Bład podczas logowania.` })
             }
