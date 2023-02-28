@@ -20,15 +20,23 @@ const Ads = ({ ads }) => {
 
         ads.forEach((element, index) => {
             adsElements.push(
-                <Col key={element._id} className={`col-8 col-sm-5 col-md-5 col-lg-3 p-2 m-2 rounded  border bg-primary fw-bold text-white`}>
-                    <div className={`d-flex flex-column justify-content-center  align-items-center`}>
-                        <Col className='p-2'>{element.title}</Col>
-                        <img
-                            src={`${API_URL}uploads/${element.img}`}
-                            alt="..."
-                            className={`m-2 ${styles.image}`}></img>
-                        <Col className='p-2'>{element.location}</Col>
-                        <Button onClick={() => handleClick(element)} className={`mt-3`}>Read more</Button>
+                <Col key={element._id} className={`col-8 col-sm-5 col-md-5 col-lg-3 p-2 m-3 rounded  border btn-outline-primary fw-bold text-white`}>
+                    <div className={`h-100 d-flex flex-column justify-content-between`}>
+                        <Col className={`col-12 d-flex flex-column justify-content-center align-items-center`}>
+                            <img
+                                src={`${API_URL}uploads/${element.img}`}
+                                alt="..."
+                                className={`m-2 ${styles.image}`}></img>
+                        </Col>
+                        <Col className={`col-12 p-2 text-dark`}>
+                            {element.title}
+                        </Col>
+                        <Col className={`col-12 p-2 text-dark`}>
+                            <h6>{element.location}</h6>
+                        </Col>
+                        <Button onClick={() => handleClick(element)} className={`m-1`}>
+                            <h5>Read more</h5>
+                        </Button>
                     </div>
                 </Col >
             )

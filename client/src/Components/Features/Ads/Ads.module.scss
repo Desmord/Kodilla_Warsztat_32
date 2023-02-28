@@ -1,10 +1,6 @@
-.image{
+.image {
+    border-radius: 5px;
     width: 100px;
     height: 100px;
-    background-color: rgba(0,0,0,0.2);
-    border-radius: 5px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
+    object-fit: contain;
 }

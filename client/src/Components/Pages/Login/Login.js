@@ -4,23 +4,23 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { setAppUser } from '../../../Redux/AppState/AppSlice';
 
-import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'
+import Alert from 'react-bootstrap/Alert'
 
 const Login = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const [infoText, setInfoText] = useState(``);
+    const [status, setStatus] = useState()
     const [login, setLogin] = useState(``);
     const [password, setPassword] = useState(``);
 
     const displayInfo = (text) => {
-        setInfoText(text)
+        setStatus(text)
         setTimeout(() => {
-            setInfoText(``)
+            setStatus(``)
         }, 3000)
     }
 
@@ -44,19 +44,16 @@ const Login = () => {
         switch (data.message) {
             case 'Logowanie poprawne.':
                 dispatch(setAppUser({ user: login, id: data.id }));
-                displayInfo(`Login sucsessful. Navigate to login page.`)
+                displayInfo(`success`)
                 setTimeout(() => {
                     navigate(`${PATHS.HOME}`, { replace: true })
                 }, 3050)
                 break;
             case `Zły login lub hasło.`:
-                displayInfo(`Wrong login or password.`)
-                break;
-            case `Bład podczas logowania.`:
-                displayInfo(`DataBase error.`)
+                displayInfo(`loginPasswordError`)
                 break;
             default:
-                displayInfo(`Connection Error.`)
+                displayInfo(`error`)
                 break;
         }
 
@@ -64,12 +61,30 @@ const Login = () => {
 
     return (
         <div className={`container d-flex flex-column justify-content-center  align-items-center`}>
-            <Row className={`col-12 p-3 mt-4 text-danger text text-center`}><h3>{infoText}</h3></Row>
+
+            {status === `success` && (
+                <Alert className={`mt-3 p-2`} variant='success'>
+                    <Alert.Heading>Login sucsessful.</Alert.Heading>
+                    <p> Navigate to login page.</p>
+                </Alert>
+            )}
+
+            {status === `loginPasswordError` && (
+                <Alert className={`mt-3 p-2`} variant='danger'>
+                    <Alert.Heading>Error.</Alert.Heading>
+                    <p>Worng login or password.</p>
+                </Alert>
+            )}
+
+            {status === `error` && (
+                <Alert className={`mt-3 p-2`} variant='danger'>
+                    <Alert.Heading>Connection error.</Alert.Heading>
+                </Alert>
+            )}
 
             <Form
                 onSubmit={(e) => handleSubmit(e)}
-                className={`col-12 p-3 d-flex justify-content-center  align-items-center flex-column`}>
-
+                className={`col-12 p-3 mt-2 d-flex justify-content-center  align-items-center flex-column`}>
                 <Form.Group className={`border rounded col-10 col-10 col-sm-8 col-md-6 col-lg-4 p-3`}>
                     <Form.Label>Login</Form.Label>
                     <Form.Control

@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
 import DatePicker from "react-datepicker";
 import { useParams } from 'react-router';
-import { GET_ADD_BY_ID, PUT_ADD } from "../../../AppUtilities";
+import { useSelector } from 'react-redux';
+import { GET_ADD_BY_ID, PUT_ADD, PATHS } from "../../../AppUtilities";
+import { useNavigate } from 'react-router-dom';
 
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'
+import Alert from 'react-bootstrap/Alert'
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -18,15 +21,17 @@ const Edit = () => {
     const [price, setPrice] = useState(0);
     const [location, setLocation] = useState(``);
     const [img, setImg] = useState(null);
-    const [infoText, setInfoText] = useState(``);
+    const [status, setStatus] = useState()
     const [author, setAuthor] = useState(``);
 
     const { id } = useParams();
+    const user = useSelector(state => state.app)
+    const navigate = useNavigate();
 
     const displayInfo = (text) => {
-        setInfoText(text)
+        setStatus(text)
         setTimeout(() => {
-            setInfoText(``)
+            setStatus(``)
         }, 3000)
     }
 
@@ -75,34 +80,30 @@ const Edit = () => {
             credentials: 'include'
         }
 
-        console.log(`${PUT_ADD}`)
+
         const response = await fetch(`${PUT_ADD}`, options)
         const data = await response.json();
 
-        console.log(data)
-
-        // switch (data.message) {
-        //     case 'Dodanie nowego ogłosznia poprawne.':
-        //         displayInfo(`Add added sucessfull. Navigate to home page.`)
-        //         setTimeout(() => {
-        //             navigate(`${PATHS.HOME}`, { replace: true })
-        //         }, 3050)
-        //         break;
-        //     case 'Brak zdjęcia.':
-        //         displayInfo(`Empty image`)
-        //         break;
-        //     default:
-        //         console.log(data)
-        //         displayInfo(`Connection Error.`)
-        //         break;
-        // }
+        switch (data.message) {
+            case 'Edycja ogłosznenia udana.':
+                displayInfo(`success`)
+                setTimeout(() => {
+                    navigate(`${PATHS.HOME}`, { replace: true })
+                }, 3050)
+                break;
+            default:
+                displayInfo(`Edit Error`)
+                break;
+        }
 
     }
 
 
     useEffect(() => {
+        if (!user.user) navigate(`${PATHS.HOME}`, { replace: true })
         setData();
     }, [setData])
+
 
     return (
         <div className={`container d-flex flex-column justify-content-center  align-items-center`} >
@@ -113,7 +114,23 @@ const Edit = () => {
                     </Row> :
                     <>
                         <h3 className={`p-3`}>Edit add</h3>
-                        <Row className={`col-12 p-3 mt-4 text-danger text text-center`}><h3>{infoText}</h3></Row>
+
+
+                        {status === `success` && (
+                            <Alert className={`mt-3 p-2`} variant='success'>
+                                <Alert.Heading>Edit succsessful.</Alert.Heading>
+                                <p> Navigate to login page.</p>
+                            </Alert>
+                        )}
+
+                        {status === `Edit Error` && (
+                            <Alert className={`mt-3 p-2`} variant='danger'>
+                                <Alert.Heading>Error.</Alert.Heading>
+                                <p>Empty img field.</p>
+                            </Alert>
+                        )}
+
+
                         <Form
                             onSubmit={(e) => handleSubmit(e)}
                             className={`col-12 d-flex justify-content-center  align-items-center flex-column`}>
@@ -160,10 +177,11 @@ const Edit = () => {
                     </>
 
             }
-
-
         </div >
     )
+
+
+
 }
 
 export default Edit;

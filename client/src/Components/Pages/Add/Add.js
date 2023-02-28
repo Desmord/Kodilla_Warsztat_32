@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import { POST_ADD_NEW_AD, PATHS } from '../../../AppUtilities';
 import { useSelector } from 'react-redux';
@@ -8,12 +8,11 @@ import { useNavigate } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'
+import Alert from 'react-bootstrap/Alert'
+
 
 import "react-datepicker/dist/react-datepicker.css";
 
-// jeśli nie zalogowany to na strone startowa
-
-// przekierowywać na strone startowa po doaniu
 const Add = () => {
 
     const [publishDate, setpublishDate] = useState(new Date());
@@ -22,16 +21,16 @@ const Add = () => {
     const [price, setPrice] = useState(0);
     const [location, setLocation] = useState(``);
     const [img, setImg] = useState(null);
-    const [infoText, setInfoText] = useState(``);
+    const [status, setStatus] = useState()
 
     const user = useSelector(state => state.app);
 
     const navigate = useNavigate();
 
     const displayInfo = (text) => {
-        setInfoText(text)
+        setStatus(text)
         setTimeout(() => {
-            setInfoText(``)
+            setStatus(``)
         }, 3000)
     }
 
@@ -45,6 +44,7 @@ const Add = () => {
         if (!price) { displayInfo(`Worng price.`); return 0; }
         if (!location) { displayInfo(`Empty location.`); return 0; }
         if (!img) { displayInfo(`Empty img.`); return 0; }
+        if (!user.id) { displayInfo(`User not logged.`); return 0; }
 
         const fd = new FormData();
         fd.append(`title`, title);
@@ -66,7 +66,7 @@ const Add = () => {
 
         switch (data.message) {
             case 'Dodanie nowego ogłosznia poprawne.':
-                displayInfo(`Add added sucessfull. Navigate to home page.`)
+                displayInfo(`success`)
                 setTimeout(() => {
                     navigate(`${PATHS.HOME}`, { replace: true })
                 }, 3050)
@@ -75,16 +75,41 @@ const Add = () => {
                 displayInfo(`Empty image`)
                 break;
             default:
-                console.log(data)
                 displayInfo(`Connection Error.`)
                 break;
         }
     }
 
+    useEffect(() => {
+        if (!user.user) navigate(`${PATHS.HOME}`, { replace: true })
+    }, []);
+
     return (
         <div className={`container d-flex flex-column justify-content-center  align-items-center`}>
             <h3 className={`p-3`}>Add new add</h3>
-            <Row className={`col-12 p-3 mt-4 text-danger text text-center`}><h3>{infoText}</h3></Row>
+
+            {status === `success` && (
+                <Alert className={`mt-3 p-2`} variant='success'>
+                    <Alert.Heading>Added new ad succsessful.</Alert.Heading>
+                    <p> Navigate to login page.</p>
+                </Alert>
+            )}
+
+            {status === `Empty image` && (
+                <Alert className={`mt-3 p-2`} variant='danger'>
+                    <Alert.Heading>Error.</Alert.Heading>
+                    <p>Empty img field.</p>
+                </Alert>
+            )}
+
+            {status === `Connection Error.` && (
+                <Alert className={`mt-3 p-2`} variant='danger'>
+                    <Alert.Heading>Error.</Alert.Heading>
+                    <p>Connection error</p>
+                </Alert>
+            )}
+
+
             <Form
                 onSubmit={(e) => handleSubmit(e)}
                 className={`col-12 d-flex justify-content-center  align-items-center flex-column`}>

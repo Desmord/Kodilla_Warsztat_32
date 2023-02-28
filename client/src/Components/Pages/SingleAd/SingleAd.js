@@ -6,6 +6,9 @@ import { useNavigate } from 'react-router-dom';
 
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Alert from 'react-bootstrap/Alert'
+
 
 import styles from './SingleAd.module.scss'
 
@@ -17,7 +20,8 @@ const SingleAd = () => {
     const authors = useSelector(state => state.authors)
     const user = useSelector(state => state.app)
 
-    const [infoText, setInfoText] = useState(``);
+
+    const [status, setStatus] = useState()
     const [isLoading, setIsLoading] = useState(true);
     const [currentAd, setCurrentAd] = useState({});
     const [currentAuthor, setCurrentAuthor] = useState({
@@ -40,9 +44,9 @@ const SingleAd = () => {
     }, [])
 
     const displayInfo = (text) => {
-        setInfoText(text)
+        setStatus(text)
         setTimeout(() => {
-            setInfoText(``)
+            setStatus(``)
         }, 3000)
     }
 
@@ -57,7 +61,7 @@ const SingleAd = () => {
 
         switch (data.message) {
             case 'Usunięcie obiektu Udane.':
-                displayInfo(`Deleting succesfull. Navigate to home page.`)
+                displayInfo(`success`)
                 setTimeout(() => {
                     navigate(`${PATHS.HOME}`, { replace: true })
                 }, 3050)
@@ -82,22 +86,52 @@ const SingleAd = () => {
                 isLoading ?
                     <Row className={`col-12 d-flex justify-content-center text-center p-4`}>
                         <h3>Loading...</h3>
-                    </Row> : <Row className={`col-12 d-flex justify-content-center text-center p-4`}>
-                        <Row className={`col-12 p-3 mt-4 text-danger text text-center`}><h3>{infoText}</h3></Row>
-                        <h3>{currentAd.title}</h3>
-                        <img
-                            src={`${API_URL}uploads/${currentAd.img}`}
-                            alt="Zdjecie Ogłoszenia"
-                            className={`m-2 ${styles.singleImage}`}></img>
-                        <h4>{currentAd.location} &nbsp;&nbsp; {currentAd.publishDate.substring(0, 10)}</h4>
-                        <h5 className={`p-2`}>{currentAd.content}</h5>
-                        <Row className={`col-12 d-flex justify-content-center text-center p-4 `}>
-                            <h4>Author: {currentAuthor.login}</h4>
-                            <h5>Phone: {currentAuthor.phoneNumber}</h5>
+                    </Row> :
+                    <Row className={`col-12 d-flex justify-content-center text-center p-4`}>
+
+
+                        {status === `success` && (
+                            <Alert className={`mt-3 p-2`} variant='success'>
+                                <Alert.Heading>Deleting succsessful.</Alert.Heading>
+                                <p> Navigate to login page.</p>
+                            </Alert>
+                        )}
+
+                        {status === `Delete error.` && (
+                            <Alert className={`mt-3 p-2`} variant='danger'>
+                                <Alert.Heading>Error.</Alert.Heading>
+                                <p>Deleting error</p>
+                            </Alert>
+                        )}
+
+                        {status === `Connection Error.` && (
+                            <Alert className={`mt-3 p-2`} variant='danger'>
+                                <Alert.Heading>Error.</Alert.Heading>
+                                <p>Connection error</p>
+                            </Alert>
+                        )}
+
+
+                        <Row className={`col-10 p-3 d-flex  justify-content-center`}>
                             <img
-                                src={`${API_URL}uploads/${currentAuthor.avatar}`}
-                                alt="avatar"
+                                src={`${API_URL}uploads/${currentAd.img}`}
+                                alt="Zdjecie Ogłoszenia"
                                 className={`m-2 ${styles.singleImage}`}></img>
+                            <h3>{currentAd.title}</h3>
+                            <h6>{currentAd.location} &nbsp;&nbsp; {currentAd.publishDate.substring(0, 10)}</h6>
+                            <h5 className={`p-2 mt-2`}>{currentAd.content}</h5>
+                        </Row>
+                        <Row className={`col-10 p-3 d-flex justify-content-center align-items-center flex-row`}>
+                            <Col className={`col-auto p-2`}>
+                                <img
+                                    src={`${API_URL}uploads/${currentAuthor ? currentAuthor.avatar : ``}`}
+                                    alt="avatar"
+                                    className={` m-2 ${styles.singleImageAvatar}`}></img>
+                            </Col>
+                            <Col className={`col-auto p-2`}>
+                                <h6>Author:&nbsp;&nbsp; {currentAuthor ? currentAuthor.login : ``}</h6>
+                                <h6>Phone:  &nbsp;&nbsp;{currentAuthor ? currentAuthor.phoneNumber : ``}</h6>
+                            </Col>
                         </Row>
                         {user.user && currentAuthor && user.user === currentAuthor?.login ?
                             <Row className={`col-5 d-flex justify-content-center flex-row p-4 `}>
@@ -109,6 +143,7 @@ const SingleAd = () => {
                                     className={` col-5 fw-bold  btn-danger p-2 px-4 m-1`}>Delete</Button>
                             </Row>
                             : ``}
+
                     </Row>
             }
         </div >

@@ -1,35 +1,36 @@
 import { useState } from 'react';
-import { REGISTER_USER_URL, PATHS  } from '../../../AppUtilities'
+import { REGISTER_USER_URL, PATHS } from '../../../AppUtilities'
 import { useNavigate } from 'react-router-dom';
 
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'
+import Alert from 'react-bootstrap/Alert'
 
 const Register = () => {
 
     const navigate = useNavigate();
 
-    const [infoText, setInfoText] = useState(``);
+    const [status, setStatus] = useState()
     const [login, setLogin] = useState(``);
     const [password, setPassword] = useState(``);
     const [avatar, setAvatar] = useState(null);
     const [phoneNumber, setPhoneNumber] = useState(``);
 
     const displayInfo = (text) => {
-        setInfoText(text)
+        setStatus(text)
         setTimeout(() => {
-            setInfoText(``)
+            setStatus(``)
         }, 3000)
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!login) { displayInfo(`Empty login`); return 0; }
-        if (!password) { displayInfo(`Empty password`); return 0; }
-        if (!avatar) { displayInfo(`Empty avatar`); return 0; }
-        if (!phoneNumber) { displayInfo(`Empty phone number`); return 0; }
+        if (!login) { displayInfo(`Empty`); return 0; }
+        if (!password) { displayInfo(`Empty`); return 0; }
+        if (!avatar) { displayInfo(`Empty`); return 0; }
+        if (!phoneNumber) { displayInfo(`Empty`); return 0; }
 
 
         const fd = new FormData();
@@ -48,7 +49,7 @@ const Register = () => {
 
         if (data.message === `Użytkownik zajestrowany.`) {
 
-            displayInfo(`User registred. Navigate to login page.`)
+            displayInfo(`success`)
             setTimeout(() => {
                 navigate(`${PATHS.LOGIN}`, { replace: true })
             }, 3050)
@@ -63,7 +64,28 @@ const Register = () => {
 
     return (
         <div className={`container d-flex flex-column justify-content-center  align-items-center`}>
-            <Row className={`col-12 p-3 mt-4 text-danger text text-center`}><h3>{infoText}</h3></Row>
+
+            {status === `success` && (
+                <Alert className={`mt-3 p-2`} variant='success'>
+                    <Alert.Heading>Register succsessful.</Alert.Heading>
+                    <p> Navigate to login page.</p>
+                </Alert>
+            )}
+
+            {status === `User exists.` && (
+                <Alert className={`mt-3 p-2`} variant='danger'>
+                    <Alert.Heading>Error.</Alert.Heading>
+                    <p>User exists.</p>
+                </Alert>
+            )}
+
+            {status === `Empty` && (
+                <Alert className={`mt-3 p-2`} variant='danger'>
+                    <Alert.Heading>Error.</Alert.Heading>
+                    <p>Empty fields</p>
+                </Alert>
+            )}
+
             <Row className={`col-12 p-3`}>
                 <Form
                     onSubmit={(e) => handleSubmit(e)}

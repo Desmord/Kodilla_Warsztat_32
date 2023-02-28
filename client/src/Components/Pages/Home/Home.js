@@ -16,18 +16,12 @@ const Home = () => {
     const navigate = useNavigate();
 
     const ads = useSelector(state => state.ads);
-    const authors = useSelector(state => state.authors);
     const dispatch = useDispatch();
 
     const [isLoading, setIsLoading] = useState(true);
     const [searchedValue, setSearchedValue] = useState(``);
 
     const getData = useCallback(async () => {
-
-        if (ads && ads.length && authors && authors.length) {
-            setIsLoading(false)
-            return 0
-        }
 
         setIsLoading(true)
 
@@ -42,7 +36,7 @@ const Home = () => {
 
         setIsLoading(false)
 
-    }, [ads, dispatch, authors])
+    }, [ dispatch])
 
     useEffect(() => {
         getData();
