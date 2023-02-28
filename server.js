@@ -3,11 +3,10 @@ const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
 const session = require(`express-session`);
-// const MongoStore = require(`connect-mongo`);
 
 const PORT = process.env.PORT || 8000;
 const USER_NAME = `UserKodilla`;
-const USER_PASSWORD = `UserKodilla1`; // Przenieśc do zmiennych środowiskowych na serwer
+const USER_PASSWORD = `UserKodilla1`;
 const DATA_BASE_NAME = `noticeBoard`;
 
 const usersRooutes = require('./routes/users.routes');
